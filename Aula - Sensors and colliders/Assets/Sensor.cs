@@ -11,23 +11,20 @@ public class Sensor : MonoBehaviour
         _material.color = Color.green;
     }
 
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         _material.color = Color.red;
     }
 
+    Vector3 v, dir;
+
     private void OnTriggerStay(Collider other)
     {
-        Vector3 v = other.transform.position;
+        v = other.transform.position;
         v.y = transform.position.y;
         transform.LookAt(v);
 
-        Vector3 dir = (transform.position - v);
+        dir = (transform.position - v);
         if (dir.magnitude > 1)
             transform.Translate(dir.normalized * _translateSpeed * Time.deltaTime);
     }
