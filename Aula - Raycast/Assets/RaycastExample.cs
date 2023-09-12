@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class RaycastExample : MonoBehaviour
 {
-    int mask;
+    public GameObject prefab;
+    
+    private int mask;
     private LineRenderer _lineRenderer;
 
     private void Start()
@@ -15,10 +17,7 @@ public class RaycastExample : MonoBehaviour
     void Update()
     {
         transform.Rotate(Vector3.up * Input.GetAxis("Horizontal") * 200 * Time.deltaTime);
-    }
 
-    private void FixedUpdate()
-    {
         RaycastHit hit;
 
         Ray ray = new Ray(transform.position, transform.forward);
@@ -28,6 +27,12 @@ public class RaycastExample : MonoBehaviour
             print("Acertou algo a " + hit.distance + " metros.");
             Debug.DrawLine(ray.origin, hit.point);
             _lineRenderer.SetPosition(1, hit.point);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Debug.Log("Space");
+                Destroy(hit.transform.gameObject);
+                Instantiate(prefab, hit.point, Quaternion.identity);
+            }
         }
         else
         {
@@ -35,6 +40,11 @@ public class RaycastExample : MonoBehaviour
         }
 
         Debug.DrawRay(ray.origin, ray.direction, Color.green);
+    }
+
+    private void FixedUpdate()
+    {
+
         
     }
 }
