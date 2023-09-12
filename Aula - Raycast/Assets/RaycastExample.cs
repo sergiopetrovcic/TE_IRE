@@ -2,29 +2,25 @@ using UnityEngine;
 
 public class RaycastExample : MonoBehaviour
 {
-    LayerMask mask;
+    int mask;
 
     private void Start()
     {
         mask = LayerMask.GetMask("Sphere");
-        Debug.Log(mask);
     }
 
     void Update()
     {
-        if(Input.GetKey(KeyCode.A))
-        {
-            transform.Rotate(Vector3.up * 200 * Time.deltaTime);
-        }
+        transform.Rotate(Vector3.up * Input.GetAxis("Horizontal") * 200 * Time.deltaTime);
     }
 
     private void FixedUpdate()
     {
         RaycastHit hit;
 
-        //Ray ray = new Ray(transform.position, new Vector3(0, 0, 1));
+        //Ray ray = new Ray(transform.position, transform.forward);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, 50, ~mask))
         {
             print("Acertou algo a " + hit.distance + " metros.");
             Debug.DrawLine(ray.origin, hit.point);
